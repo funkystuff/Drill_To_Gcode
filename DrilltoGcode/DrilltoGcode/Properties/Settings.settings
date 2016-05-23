@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DrilltoGcode.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="absolute_or_relative_cmd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ABSOLUTE</Value>
+    </Setting>
+    <Setting Name="drill_speed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="move_speed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="home_cmd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">G28</Value>
+    </Setting>
+    <Setting Name="tp_element_cmd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">M106</Value>
+    </Setting>
+    <Setting Name="tp_element_off_cmd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">M107</Value>
+    </Setting>
+    <Setting Name="n_cfr_int" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="n_precision" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="zero_supp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
+    <Setting Name="offsetx" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="offsety" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,36 @@
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe.config
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.pdb
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.mainWindow.resources
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.normalizeform.resources
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.Properties.Resources.resources
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csproj.GenerateResource.Cache
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.exe
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.pdb
+C:\Users\Tommaso\documents\visual studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csprojResolveAssemblyReference.cache
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe.config
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.exe
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.pdb
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.pdb
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csprojResolveAssemblyReference.cache
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.mainWindow.resources
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.normalizeform.resources
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.Properties.Resources.resources
+C:\Users\TommasoDippolito\Documents\Visual Studio 2013\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csproj.GenerateResource.Cache
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe.config
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.exe
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.pdb
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.pdb
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csprojResolveAssemblyReference.cache
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.mainWindow.resources
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.normalizeform.resources
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.Properties.Resources.resources
+C:\Users\Tommaso D'ippolito\Documents\Visual Studio 2015\Projects\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.csproj.GenerateResource.Cache
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Hcode\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe.config
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Hcode\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.exe
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Hcode\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.pdb
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Gcode\DrilltoGcode\DrilltoGcode\bin\Debug\DrilltoGcode.exe.config
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Gcode\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.exe
+C:\Users\Tommaso D'ippolito\Source\Repos\Drill_To_Gcode\DrilltoGcode\DrilltoGcode\obj\Debug\DrilltoGcode.pdb
