@@ -75,7 +75,7 @@ namespace DrilltoGcode
                     drillFilePath.Text = DrillFileOpen.FileName;
                     drillfile = new StreamReader(DrillFileOpen.FileName);
                     if (!drlfilereader.read_file(drillfile))
-                        throw new Exception("Nessun Header trovato");
+                        throw new Exception("No Header Found");
                     else
                     {
                         foreach (DrillTool d in drlfilereader.TOOLS)
