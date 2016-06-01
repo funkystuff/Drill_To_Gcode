@@ -1,6 +1,6 @@
 ﻿namespace DrilltoGcode
 {
-    partial class normalizeform
+    partial class NormalizeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,29 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.OkBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // OkBtn
             // 
-            this.button1.Location = new System.Drawing.Point(420, 311);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 60);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.OkBtn.Location = new System.Drawing.Point(144, 202);
+            this.OkBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.OkBtn.Name = "OkBtn";
+            this.OkBtn.Size = new System.Drawing.Size(72, 39);
+            this.OkBtn.TabIndex = 0;
+            this.OkBtn.Text = "OK";
+            this.OkBtn.UseVisualStyleBackColor = true;
+            this.OkBtn.Click += new System.EventHandler(this.OkBtn_Click);
             // 
-            // normalizeform
+            // NormalizeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 383);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(360, 249);
+            this.Controls.Add(this.OkBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "normalizeform";
+            this.Name = "NormalizeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Normalize ";
             this.ResumeLayout(false);
@@ -59,6 +61,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button OkBtn;
     }
 }

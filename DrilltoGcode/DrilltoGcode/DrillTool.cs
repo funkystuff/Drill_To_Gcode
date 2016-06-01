@@ -1,142 +1,117 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrilltoGcode
 {
-    public enum drilltype {PLATED,NONPLATED};
-    public class point {
-        double x;
-        double y;
-        public point(double xi,double yi)
-        {
-            x = xi;
-            y = yi;
-        }
-        public point()
-        {
-            x = 0;
-            y = 0;
-        }
-        public override string ToString()
-        {
-            return "Punto: "+x.ToString()+" ; "+y.ToString();
-        }
-        public double X
-        {
-            get { return x; }
-            set { if (value != x) x = value; }
-        }
-        public double Y
-        {
-            get { return y; }
-            set { if (value != y) y = value; }
-        }
-    };
+    /// <summary>
+    /// Drill tool.
+    /// </summary>
     public class DrillTool
     {
-        //Variabili
-        string toolname;
-        double drilldiameter;
-        int drillquantity;
-        drilltype type;
-        m_unit unit;
-        List<point> points;
-        bool normalized;
-        int lastnormval;
-        //Proprietà
-        [DisplayName("Name"), Description("Name of related tool"), ReadOnlyAttribute(true)]
-        public string TOOLNAME
-        {
-            get { return toolname; }
-            set { if (value != toolname) toolname = value; }
-        }
-        [DisplayName("Diameter"), Description("Diameter of the related tool"), ReadOnlyAttribute(false)]
-        public double DRILLDIAMETER
-        {
-            get { return drilldiameter; }
-            set { if (value != drilldiameter) drilldiameter = value; }
-        }
-        [DisplayName("Quantity"), Description("Number of points of related tool"), ReadOnlyAttribute(true)]
-        public int DRILLQUANTITY
-        {
-            get { return drillquantity; }
-            set { if (value != drillquantity) drillquantity = value; }
-        }
-        [DisplayName("Plating"), Description("The property says the type of drill"), ReadOnlyAttribute(false)]
-        public drilltype TYPE
-        {
-            get { return type; }
-            set { if (value != type) type = value; }
-        }
+        #region Variabili
+
+        private List<Point> _Points;
+
+        #endregion
+
+        #region Proprietà
+
         [DisplayName("Points"), Description("List of point associated with the related tool"), ReadOnlyAttribute(false)]
-        public List<point> POINTS
+        public List<Point> Points
         {
-            get { return points; }
-            set { if (value != points)
-                    points = value;
-            }
-        }
-        [DisplayName("Unit"), Description("The measure unit of drill file"), ReadOnlyAttribute(false)]
-        public m_unit UNIT
-        {
-            get { return unit; }
-            set { if (value != unit) unit = value; }
-        }
-        [DisplayName("Normalized"),Description("The property says if the tool is normalized"),ReadOnlyAttribute(true)]
-        public bool NORMALIZED
-        {
-            get { return normalized; }
-            set { if (value != normalized) normalized = value;}
-        }
-        [Browsable(false)]
-        public int LASTNORMVAL
-        {
-            get { return lastnormval; }
-            set { if (value != lastnormval) lastnormval = value; }
+            get { return _Points; }
         }
 
-        //Costruttore
+        [DisplayName("Name"), Description("Name of related tool"), ReadOnlyAttribute(true)]
+        public string ToolName { get; set; }
+
+        [DisplayName("Diameter"), Description("Diameter of the related tool"), ReadOnlyAttribute(false)]
+        public double DrillDiameter { get; set; }
+        
+        [DisplayName("Quantity"), Description("Number of points of related tool"), ReadOnlyAttribute(true)]
+        public int DrillQuantity { get; set; }
+        
+        [DisplayName("Plating"), Description("Type of drill"), ReadOnlyAttribute(false)]
+        public DrillType Type { get; set; }
+
+        [DisplayName("Unit"), Description("The measurement unit of drill file"), ReadOnlyAttribute(false)]
+        public Units Unit { get; set; }
+
+        [DisplayName("Normalized"), Description("The tool is normalized"), ReadOnlyAttribute(true)]
+        public bool Normalized { get; set; }
+
+        [Browsable(false)]
+        public int LastNormal { get; set; }
+
+        #endregion
+
+        #region Costruttori
+
+        /// <summary>
+        /// Costruttore di base.
+        /// </summary>
         public DrillTool()
         {
-            toolname = "***";
-            drilldiameter = 0;
-            drillquantity = 0;
-            type = drilltype.NONPLATED;
-            unit = m_unit.METRIC;
-            points = new List<point>();
-            normalized = false;
-            lastnormval = 0;
-        }
-        //Membri
-        public DrillTool(string name,double diameter,int quantity,drilltype tp,m_unit un)
-        {
-            toolname = name;
-            drilldiameter = diameter;
-            drillquantity = quantity;
-            type = tp;
-            unit = un;
-            points = new List<point>();
-            normalized = false;
-            lastnormval = 0;
-        }
-        public override string ToString()
-        {
-            return toolname;
+            _Points = new List<Point>();
+            Normalized = false;
+            LastNormal = 0;
+
+            ToolName = "***";
+            DrillDiameter = 0;
+            DrillQuantity = 0;
+            Type = DrillType.NonPLated;
+            Unit = Units.Metric;
         }
 
-        void AddPoint(point p)
+        /// <summary>
+        /// Costruttore.
+        /// </summary>
+        /// <param name="name">Nome del tool</param>
+        /// <param name="diameter">Diametro foro</param>
+        /// <param name="quantity">Quantità dei fori</param>
+        /// <param name="type">Tipo metalizzazione</param>
+        /// <param name="unit">Unità di misura</param>
+        public DrillTool(string name, double diameter, int quantity, DrillType type, Units unit)
+            : this()
         {
-            points.Add(p);
+            ToolName = name;
+            DrillDiameter = diameter;
+            DrillQuantity = quantity;
+            Type = type;
+            Unit = unit;
+        } 
+
+        #endregion
+
+        #region Metodi
+
+        /// <summary>
+        /// Converte il tool in stringa.
+        /// </summary>
+        /// <returns>Valore stringa che rappresenta il tool</returns>
+        public override string ToString()
+        {
+            return ToolName;
+        }
+
+        /// <summary>
+        /// Aggiunge un punto alla lista di punti.
+        /// </summary>
+        /// <param name="point">Punto da aggiungere</param>
+        public void AddPoint(Point point)
+        {
+            _Points.Add(point);
             this.Update();
         }
 
+        /// <summary>
+        /// Aggiorna il numero di fori.
+        /// </summary>
         public void Update()
         {
-            drillquantity = points.Count; 
+            DrillQuantity = _Points.Count;
         }
+
+        #endregion
     }
 }

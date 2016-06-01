@@ -1,171 +1,248 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Text;
 
 namespace DrilltoGcode
 {
-    public enum m_unit {METRIC,IMPERIAL};
-    public enum zero_supp {LEADING,TRAILING,NONE};
+    /// <summary>
+    /// Reader drill file.
+    /// </summary>
     public class DrillFileReader
     {
-        List<DrillTool> tools;
-        string aux_string_line;
-        string last_tool_readed;
-        point aux_point;
-        StringBuilder stringmodifier;
-        StringBuilder toolname;
-        StringBuilder xybuilder;
-        long header_line_pos;
-        bool gfile;
-        m_unit unita;
-        //Proprietà
-        public List<DrillTool> TOOLS
+        #region Variabili
+
+        private List<DrillTool> _Tools;
+        private string _AuxStringLine;
+        private string _LastToolRead;
+        private Point _AuxPoint;
+        private StringBuilder _StringModifier;
+        private StringBuilder _ToolName;
+        private StringBuilder _XYBuilder;
+        private long _HeaderLinePos;
+        private bool _GoodFile;
+        private Units _Unita;
+
+        #endregion
+
+        #region Proprietà
+
+        /// <summary>
+        /// Lista dei tool.
+        /// </summary>
+        public List<DrillTool> Tools
         {
-            get { return tools;}
+            get { return _Tools; }
         }
-        public bool GOODFILE
+
+        /// <summary>
+        /// File caricato correttamente.
+        /// </summary>
+        public bool GoodFile
         {
-            get { return gfile; }
+            get { return _GoodFile; }
         }
-        //costruttore
+
+        #endregion
+
+        #region Construttore
+
+        /// <summary>
+        /// Costruttore di base.
+        /// </summary>
         public DrillFileReader()
         {
-            tools = new List<DrillTool>();
-            aux_string_line = null;
-            unita = m_unit.METRIC;
-            gfile = false;
-            stringmodifier = new StringBuilder();
-            toolname = new StringBuilder();
-            xybuilder = new StringBuilder();
-            last_tool_readed = "last";
-            aux_point = new point(0,0);
-            header_line_pos = 0;
+            _Tools = new List<DrillTool>();
+            _AuxStringLine = null;
+            _Unita = Units.Metric;
+            _GoodFile = false;
+            _StringModifier = new StringBuilder();
+            _ToolName = new StringBuilder();
+            _XYBuilder = new StringBuilder();
+            _LastToolRead = "last";
+            _AuxPoint = new Point(0,0);
+            _HeaderLinePos = 0;
         }
-        //metodi
+        
+        #endregion
+
+        #region Metodi
+
+        /// <summary>
+        /// Iniziallizza il tool.
+        /// </summary>
         public void Clear()
         {
-            tools.Clear();
-            aux_string_line = null;
-            gfile = false;
-            stringmodifier.Clear();
-            toolname.Clear();
-            xybuilder.Clear();
-            aux_point.X = 0;
-            aux_point.Y = 0;
-            header_line_pos = 0;
-            last_tool_readed = "last";
+            _Tools.Clear();
+            _AuxStringLine = null;
+            _GoodFile = false;
+            _StringModifier.Clear();
+            _ToolName.Clear();
+            _XYBuilder.Clear();
+            _AuxPoint.X = 0;
+            _AuxPoint.Y = 0;
+            _HeaderLinePos = 0;
+            _LastToolRead = "last";
         }
-        public bool read_file(StreamReader drillfile)
+
+        /// <summary>
+        /// Legge un drill file.
+        /// </summary>
+        /// <param name="drillfile">Path del file da leggere</param>
+        /// <returns>true se il file è stato letto correttamente false in caso contrario</returns>
+        public bool ReadFile(StreamReader drillfile)
         {
             this.Clear();
+
             drillfile.DiscardBufferedData();
             drillfile.BaseStream.Position = 0;
+
             //read header
             do
             {
+                _AuxStringLine = drillfile.ReadLine();
 
-
-             aux_string_line = drillfile.ReadLine();
-                if (gfile != true && aux_string_line.Contains( "M48"))
+                if (!_GoodFile && _AuxStringLine.Contains("M48"))
                 {
-                    header_line_pos = drillfile.BaseStream.Length;
-                    gfile = true;
+                    _HeaderLinePos = drillfile.BaseStream.Length;
+                    _GoodFile = true;
+
                     do
                     {
-                        aux_string_line = drillfile.ReadLine();
-                    } while (!(aux_string_line.Contains ("M71") || aux_string_line.Contains("M72") || aux_string_line.Contains("METRIC") || aux_string_line.Contains("IMPERIAL") || aux_string_line.Contains("INCH")));
-                    if (aux_string_line.Contains("M71") || aux_string_line.Contains("METRIC"))
-                        unita = m_unit.METRIC;
-                    if (aux_string_line.Contains("M72") || aux_string_line.Contains("IMPERIAL") || aux_string_line.Contains("INCH"))
-                        unita = m_unit.IMPERIAL;
+                        _AuxStringLine = drillfile.ReadLine();
+                    } while (!(_AuxStringLine.Contains("M71") || _AuxStringLine.Contains("M72") || _AuxStringLine.Contains("METRIC") || _AuxStringLine.Contains("IMPERIAL") || _AuxStringLine.Contains("INCH")));
+
+                    if (_AuxStringLine.Contains("M71") || _AuxStringLine.Contains("METRIC"))
+                        _Unita = Units.Metric;
+
+                    if (_AuxStringLine.Contains("M72") || _AuxStringLine.Contains("IMPERIAL") || _AuxStringLine.Contains("INCH"))
+                        _Unita = Units.Imperial;
+
                     drillfile.DiscardBufferedData();
                     drillfile.BaseStream.Position = 0;
-                    aux_string_line = drillfile.ReadLine();
-                    aux_string_line = drillfile.ReadLine();
+
+                    _AuxStringLine = drillfile.ReadLine();
+                    _AuxStringLine = drillfile.ReadLine();
                 }
-                if (gfile != true)
+
+                if (!_GoodFile)
                     continue;
+
                 //Leggo i tools
-                stringmodifier.Append(aux_string_line);
-                if(stringmodifier.Length!= 0 && (stringmodifier[0]=='T'|| stringmodifier[0] == 't'))
+                _StringModifier.Append(_AuxStringLine);
+
+                if ((_StringModifier.Length != 0) && ((_StringModifier[0] == 'T') || (_StringModifier[0] == 't')))
                 {
                     //avanzo dall'ultimo elemento fino a trovare la C
-                    for (int i = 0; stringmodifier.Length != 0 && i<=500 && !(stringmodifier[0] == 'C' || stringmodifier[0] == 'c');i++)
+                    for (int _i = 0; (_StringModifier.Length != 0) && (_i <= 500) && !((_StringModifier[0] == 'C') || (_StringModifier[0] == 'c')); _i++)
                     {
-                        toolname.Append(stringmodifier[0]);
-                        stringmodifier.Remove(0, 1);
+                        _ToolName.Append(_StringModifier[0]);
+                        _StringModifier.Remove(0, 1);
                     }
-                    if (stringmodifier.Length != 0 && toolname.ToString() != last_tool_readed)
+
+                    if ((_StringModifier.Length != 0) && (_ToolName.ToString() != _LastToolRead))
                     {
-                        stringmodifier.Remove(0, 1);
-                        stringmodifier.Insert(0, '0');
-                        stringmodifier.Replace('.', ',');
-                        tools.Add(new DrillTool(toolname.ToString(), Convert.ToDouble(stringmodifier.ToString()), 0, drilltype.PLATED,unita));
-                        last_tool_readed = toolname.ToString();
+                        _StringModifier.Remove(0, 1);
+                        _StringModifier.Insert(0, '0');
+                        _StringModifier.Replace('.', ',');
+                        _Tools.Add(new DrillTool(_ToolName.ToString(), Convert.ToDouble(_StringModifier.ToString()), 0, DrillType.Plated, _Unita));
+                        _LastToolRead = _ToolName.ToString();
                         //Determino quanti e quali sono i punti da forare per il tool appena trovato
                         //Mi posiziono alla fine dell'header
                         drillfile.DiscardBufferedData();
                         drillfile.BaseStream.Position = 0;
-                        for (; !aux_string_line.Contains("%");)
-                            aux_string_line = drillfile.ReadLine();
+
+                        for (; !_AuxStringLine.Contains("%");)
+                            _AuxStringLine = drillfile.ReadLine();
+                        
                         //Cerco il tool
                         do
                         {
-                            aux_string_line = drillfile.ReadLine();
-                            if (aux_string_line.Contains(toolname.ToString()))
+                            _AuxStringLine = drillfile.ReadLine();
+
+                            if (_AuxStringLine.Contains(_ToolName.ToString()))
                             {
-                                aux_string_line = drillfile.ReadLine();
-                                for (int i = 0; aux_string_line[0] == 'X' || aux_string_line[0] == 'Y'; i++)
+                                _AuxStringLine = drillfile.ReadLine();
+
+                                for (int _i = 0; (_AuxStringLine[0] == 'X') || (_AuxStringLine[0] == 'Y'); _i++)
                                 {
                                     //Aumento la quantità dei fori del drill selezionato 
-                                    tools[tools.Count - 1].DRILLQUANTITY++;
-                                    aux_point.X = 0;
-                                    aux_point.Y = 0;
+                                    _Tools[_Tools.Count - 1].DrillQuantity++;
+                                    _AuxPoint.X = 0;
+                                    _AuxPoint.Y = 0;
                                     // inserisco il valore
+
                                     //X
-                                    if (aux_string_line.Contains("X"))
+                                    if (_AuxStringLine.Contains("X"))
                                     {
-                                        xybuilder.Clear();
-                                        xybuilder.Append(aux_string_line);
-                                        if(aux_string_line.Contains("Y"))
-                                            xybuilder.Remove(aux_string_line.IndexOf('Y'), aux_string_line.Length - aux_string_line.IndexOf('Y'));
-                                        xybuilder.Remove(0, 1);
-                                        aux_point.X = Convert.ToDouble(xybuilder.ToString());
+                                        _XYBuilder.Clear();
+                                        _XYBuilder.Append(_AuxStringLine);
+
+                                        if (_AuxStringLine.Contains("Y"))
+                                            _XYBuilder.Remove(_AuxStringLine.IndexOf('Y'), _AuxStringLine.Length - _AuxStringLine.IndexOf('Y'));
+
+                                        _XYBuilder.Remove(0, 1);
+                                        _AuxPoint.X = Convert.ToDouble(_XYBuilder.ToString());
                                     }
                                     else
-                                        aux_point.X = 0;
+                                        _AuxPoint.X = 0;
+                                    
                                     //Y
-                                    if (aux_string_line.Contains("Y"))
+                                    if (_AuxStringLine.Contains("Y"))
                                     {
-                                        xybuilder.Clear();
-                                        xybuilder.Append(aux_string_line);
-                                        if(aux_string_line.Contains("X"))
-                                            xybuilder.Remove(aux_string_line.IndexOf('X'), aux_string_line.IndexOf('Y'));
-                                        xybuilder.Remove(0, 1);
-                                        aux_point.Y = Convert.ToDouble(xybuilder.ToString());
+                                        _XYBuilder.Clear();
+                                        _XYBuilder.Append(_AuxStringLine);
+
+                                        if (_AuxStringLine.Contains("X"))
+                                            _XYBuilder.Remove(_AuxStringLine.IndexOf('X'), _AuxStringLine.IndexOf('Y'));
+
+                                        _XYBuilder.Remove(0, 1);
+                                        _AuxPoint.Y = Convert.ToDouble(_XYBuilder.ToString());
                                     }
                                     else
-                                        aux_point.Y = 0;
+                                        _AuxPoint.Y = 0;
+                                    
                                     //Add point
-                                    tools[tools.Count - 1].POINTS.Add(new point(aux_point.X,aux_point.Y));
-                                    aux_string_line = drillfile.ReadLine();
+                                    _Tools[_Tools.Count - 1].Points.Add(new Point(_AuxPoint.X, _AuxPoint.Y));
+                                    _AuxStringLine = drillfile.ReadLine();
                                 }
 
                             }
-                        } while (!(aux_string_line.Contains("%") || aux_string_line.Contains("M30") || aux_string_line == null));
+                        } while (!(_AuxStringLine.Contains("%") || _AuxStringLine.Contains("M30") || (_AuxStringLine == null)));
+
                         drillfile.DiscardBufferedData();
                         drillfile.BaseStream.Position = 0;
-                        for (; !aux_string_line.Contains(toolname.ToString());)
-                            aux_string_line = drillfile.ReadLine();
-                        toolname.Clear();
+
+                        for (; !_AuxStringLine.Contains(_ToolName.ToString());)
+                            _AuxStringLine = drillfile.ReadLine();
+
+                        _ToolName.Clear();
                     }
                 }
-                stringmodifier.Clear();
-            } while (!(aux_string_line.Contains("%") || aux_string_line.Contains("M30") || aux_string_line == null ));
-            return gfile;
+
+                _StringModifier.Clear();
+            } while (!(_AuxStringLine.Contains("%") || _AuxStringLine.Contains("M30") || (_AuxStringLine == null)));
+
+            return _GoodFile;
         }
+
+        /// <summary>
+        /// Create a DrillFileReader from a drill file.
+        /// </summary>
+        /// <param name="drillfile">Drill file</param>
+        /// <returns></returns>
+        public static DrillFileReader Create(StreamReader drillfile)
+        {
+            DrillFileReader _drillfilereader = new DrillFileReader();
+
+            bool _result = _drillfilereader.ReadFile(drillfile);
+
+            if (_result)
+                return _drillfilereader;
+
+            throw new Exception("Unable to create DrillFileReader");
+        }
+
+        #endregion
     }
 }
