@@ -21,7 +21,7 @@ namespace DrilltoGcode
         private StringBuilder _XYBuilder;
         private long _HeaderLinePos;
         private bool _GoodFile;
-        private Units _Unita;
+        private Units _Unita;//YO
 
         #endregion
 
