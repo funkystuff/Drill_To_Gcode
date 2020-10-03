@@ -12,7 +12,7 @@
       <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="home_cmd" Type="System.String" Scope="User">
-      <Value Profile="(Default)">G28</Value>
+      <Value Profile="(Default)">-2.5</Value>
     </Setting>
     <Setting Name="tp_element_cmd" Type="System.String" Scope="User">
       <Value Profile="(Default)">M106</Value>
@@ -34,6 +34,9 @@
     </Setting>
     <Setting Name="offsety" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="drill_depth" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-2.5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

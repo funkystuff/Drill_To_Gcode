@@ -14,7 +14,7 @@ namespace DrilltoGcode
         private StreamReader _DrillFile;
         private DrillFileReader _DrillFileReader = new DrillFileReader();
         private List<DrillTool> _ToolsList = new List<DrillTool>();
-        private const int _ZHeightMM = 5; //TODO: export in settings
+        private const decimal _ZHeightMM = -2.5M; //TODO: export in settings
         private string _Drill;
         private string _DrillUp;
 
@@ -38,29 +38,28 @@ namespace DrilltoGcode
             foreach (string e in Enum.GetNames(typeof(ZeroSuppression)))
                 SuppressionSett.Items.Add(e);
 
-            _Drill = "G01" + " Z0" + " F" + (Convert.ToInt32(DrilltoGcode.Properties.Settings.Default.drill_speed) * 60).ToString() + "\r\n";
-            _DrillUp = "G01 Z" + _ZHeightMM.ToString() + " F" + (Convert.ToInt32(DrilltoGcode.Properties.Settings.Default.drill_speed) * 60).ToString() + "\r\n";
+            var depth = "Z" + Properties.Settings.Default.drill_depth.ToString();
+
+            _Drill = "G01" + depth + " F" + (Convert.ToInt32(Properties.Settings.Default.drill_speed) * 60).ToString() + "\r\n";
+            _DrillUp = "G01 Z0" + " F" + (Convert.ToInt32(Properties.Settings.Default.drill_speed) * 60).ToString() + "\r\n";
         }
 
         private string CeateGCode(DrillTool tool)
         {
             StringBuilder _GCode = new StringBuilder();
 
-            _GCode.Append("G21\r\n");
+            _GCode.Append("M3 S1000\r\n");
 
             //Setto la modalità assoluta o relativa
 
-            if (DrilltoGcode.Properties.Settings.Default.absolute_or_relative_cmd == Increment.Absolute.ToString())
+            if (Properties.Settings.Default.absolute_or_relative_cmd == Increment.Absolute.ToString())
                 _GCode.Append("G90\r\n");
             else
                 _GCode.Append("G91\r\n");
-            
-            //Vado a Home
-            _GCode.Append(DrilltoGcode.Properties.Settings.Default.home_cmd + " X Y Z\r\n");
-            
+
             //Salgo lungo l'asse Z di zheight mm
             _GCode.Append(_DrillUp);
-            
+
             //scrivo ogni punto
             foreach (Point _point in tool.Points)
             {
@@ -74,8 +73,9 @@ namespace DrilltoGcode
                 _GCode.Append(_DrillUp);
             }
 
-            _GCode.Append(DrilltoGcode.Properties.Settings.Default.tp_element_off_cmd + "\r\n");
-            _GCode.Append(DrilltoGcode.Properties.Settings.Default.home_cmd + " X Y");
+            _GCode.Append("M5\r\n");
+
+            _GCode.Append("G01 X0 Y0 Z0\r\n");
 
             return _GCode.ToString();
         }
@@ -233,6 +233,5 @@ namespace DrilltoGcode
         }
 
         #endregion
-
     }
 }
