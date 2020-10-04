@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -145,7 +146,7 @@ namespace DrilltoGcode
                         _StringModifier.Remove(0, 1);
                         _StringModifier.Insert(0, '0');
                         _StringModifier.Replace('.', ',');
-                        _Tools.Add(new DrillTool(_ToolName.ToString(), Convert.ToDouble(_StringModifier.ToString()), 0, DrillType.Plated, _Unita));
+                        _Tools.Add(new DrillTool(_ToolName.ToString(), Convert.ToDouble(_StringModifier.ToString(), CultureInfo.InvariantCulture.NumberFormat), 0, DrillType.Plated, _Unita));
                         _LastToolRead = _ToolName.ToString();
                         //Determino quanti e quali sono i punti da forare per il tool appena trovato
                         //Mi posiziono alla fine dell'header
@@ -182,7 +183,7 @@ namespace DrilltoGcode
                                             _XYBuilder.Remove(_AuxStringLine.IndexOf('Y'), _AuxStringLine.Length - _AuxStringLine.IndexOf('Y'));
 
                                         _XYBuilder.Remove(0, 1);
-                                        _AuxPoint.X = Convert.ToDouble(_XYBuilder.ToString());
+                                        _AuxPoint.X = Convert.ToDouble(_XYBuilder.ToString(), CultureInfo.InvariantCulture.NumberFormat);
                                     }
                                     else
                                         _AuxPoint.X = 0;
@@ -197,7 +198,7 @@ namespace DrilltoGcode
                                             _XYBuilder.Remove(_AuxStringLine.IndexOf('X'), _AuxStringLine.IndexOf('Y'));
 
                                         _XYBuilder.Remove(0, 1);
-                                        _AuxPoint.Y = Convert.ToDouble(_XYBuilder.ToString());
+                                        _AuxPoint.Y = Convert.ToDouble(_XYBuilder.ToString(), CultureInfo.InvariantCulture.NumberFormat);
                                     }
                                     else
                                         _AuxPoint.Y = 0;
